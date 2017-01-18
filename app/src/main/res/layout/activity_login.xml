@@ -16,12 +16,24 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_message" />
 
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_save_message"
+        android:onClick="saveMessage" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_send"
-            android:onClick="sendMessage" />
-
+            android:text="@string/button_show_message"
+            android:onClick="showMessage" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,8 +44,30 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/input_button"
-            android:onClick="saveMessage" />
+            android:text="@string/button_main"
+            android:onClick="startHome" />
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_http_request"
+            android:onClick="httpRequest" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_note"
+            android:onClick="StartNote"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -3,12 +3,18 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="button_main">Home</string>
+    <string name="button_http_request">Http Request</string>
     <string name="action_setting">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_display_message">My Message</string>
-    <string name="input_message">This will be saved!</string>
-    <string name="input_button">Save</string>
-    <string name="message_show">Keep me as the apple of thy eye, hide me under the shadow of thy wings.</string>
+    <string name="button_save_message">Save Message</string>
+    <string name="button_show_message">Show Message</string>
+    <string name="saved_user_name"></string>
+    <string name="apple_of_my_eye">Keep me as the apple of thy eye, hide me under the shadow of thy wings.</string>
+
+    <string name="button_send_request">Send Request</string>
+
+    <string name="button_note">Start Note</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
