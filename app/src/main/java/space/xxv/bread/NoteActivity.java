@@ -1,37 +1,72 @@
 package space.xxv.bread;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.Date;
+
+import io.realm.RealmResults;
+import space.xxv.bread.model.Note;
+
+import io.realm.Realm;
 
 
 public class NoteActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private EditText titleText;
+    private Realm realm;
+    private TextView status;
+
+    private String noteTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_note);
+        setContentView(R.layout.activity_note);
+        titleText = (EditText) findViewById(R.id.noteTitle);
+        status = (TextView) findViewById(R.id.status);
 
-        SectionsPagerAdapter pagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(pagerAdapter);
+        realm = Realm.getDefaultInstance();
+
+        showNote();
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 
-        @Override
-        public Fragment getItem() {
-            return new ScoreFragment();
-        }
+    public void saveButtonClick(View view) {
+        addNote();
+
+        showNote();
+        titleText.setText("");
+    }
+
+
+    public void addNote(){
+
+        noteTitle = titleText.getText().toString();
+
+        final Note note = new Note();
+        note.setTitle(noteTitle);
+        note.setDate(new Date());
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(note);
+            }
+        });
+
+    }
+
+    public void showNote() {
+//        final RealmResults<Note> notes = realm.where(Note.class).findAll();
+        status.setText("number of notes: " + realm.where(Note.class).count());
     }
 }
