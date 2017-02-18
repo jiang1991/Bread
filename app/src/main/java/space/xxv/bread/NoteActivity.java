@@ -2,11 +2,14 @@ package space.xxv.bread;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.List;
 
 import io.realm.RealmResults;
 import space.xxv.bread.model.Note;
@@ -20,18 +23,45 @@ public class NoteActivity extends AppCompatActivity {
     private Realm realm;
     private TextView status;
 
+    private RealmResults<Note> notes;
+
     private String noteTitle;
+
+    private NoteAdapter noteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-        titleText = (EditText) findViewById(R.id.noteTitle);
-        status = (TextView) findViewById(R.id.status);
+
+        setupViews();
 
         realm = Realm.getDefaultInstance();
 
-        showNote();
+
+        updateNote();
+    }
+
+    protected void setupViews() {
+        titleText = (EditText) findViewById(R.id.noteTitle);
+        status = (TextView) findViewById(R.id.status);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.note_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        noteAdapter = new NoteAdapter(noteClickListener);
+
+        recyclerView.setAdapter(noteAdapter);
+    }
+
+    public void updateNote() {
+        notes = realm.where(Note.class).findAll();
+
+        status.setText("Notes Number:" + notes.size());
+
+        noteAdapter.setNote(notes);
+
     }
 
     @Override
@@ -43,8 +73,9 @@ public class NoteActivity extends AppCompatActivity {
     public void saveButtonClick(View view) {
         addNote();
 
-        showNote();
         titleText.setText("");
+
+        updateNote();
     }
 
 
@@ -65,8 +96,15 @@ public class NoteActivity extends AppCompatActivity {
 
     }
 
-    public void showNote() {
-//        final RealmResults<Note> notes = realm.where(Note.class).findAll();
-        status.setText("number of notes: " + realm.where(Note.class).count());
-    }
+    NoteAdapter.NoteClickListener noteClickListener = new NoteAdapter.NoteClickListener() {
+        @Override
+        public void onNoteClick(int position) {
+            Note note = noteAdapter.getNote(position);
+
+
+
+            updateNote();
+        }
+    };
+
 }
